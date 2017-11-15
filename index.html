@@ -12,9 +12,16 @@
   	</head>
 
   	<body>
-	  	<div id="map">
-	  		
+		<div class="container">
+    		<div class="lista">
+    			<ul data-bind="foreach: lugarLista">
+    				<li data-bind="text: nome"></li>
+    			</ul>	
+    		</div>
+
+    		<div id="map"></div>
 	  	</div>
+	  	
 	  
 
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script> 	 	
