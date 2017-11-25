@@ -52,18 +52,46 @@ var Lugar = function(data){
     this.posição = ko.observable(data.posição);
 }
 
+
+
 var ViewModel = function() {
     var self = this;
 
     this.lugarLista = ko.observableArray([]);
 
-    lugaresIniciais.forEach(function(lugarItem){
-        self.lugarLista.push( new Lugar(lugarItem) );
+    this.listarTodos = function() {
+        lugaresIniciais.forEach(function(lugarItem){
+            self.lugarLista.push( new Lugar(lugarItem) );
+        });
+    }
+    this.listarTodos();
+    this.pesquisa = ko.observable(''); 
+    this.pesquisar = function(value) {
+        self.lugarLista.removeAll();
+
+        if (value == '') self.listarTodos;
+
+        lugaresIniciais.forEach(function(lugarItem){
+            if (lugarItem.nome.toLowerCase().indexOf(value.toLowerCase()) >= 0) {
+                    self.lugarLista.push( new Lugar(lugarItem) );
+                
+            } 
     });
 
+      
+        /*
+        
+        
+        self.lugarLista().forEach(function(lugarListaItem){
+            if (self.lugarLista()[lugarListaItem].name.toLowerCase().indexOf(value.toLowerCase()) >= 0) {
+                self.lugarLista.push(self.lugarLista[lugarListaItem]);
+            }
+        })
+*/
 
+    };
 
-
+    this.pesquisa.subscribe(self.pesquisar);
 }
 
 ko.applyBindings(new ViewModel());
