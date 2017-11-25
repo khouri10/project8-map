@@ -17,7 +17,7 @@ var lugaresIniciais = [
     posição: {lat: -23.536217, lng: -46.612821}
 },
 {
-    nome: 'Family',
+    nome: 'Hotel Family',
     posição: {lat: -23.539749, lng: -46.619614}
 }
 ];
@@ -62,6 +62,10 @@ var ViewModel = function() {
     });
 
 
+
+
 }
 
 ko.applyBindings(new ViewModel());
+
+
