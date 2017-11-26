@@ -103,15 +103,6 @@ var ViewModel = function() {
     };
 
     this.pesquisa.subscribe(self.pesquisar);
-
-    this.esconderMarcadores = function() {
-    	esconderMarcadores(marcadores);
-    };
-
-    this.mostrarMarcadores = function() {
-    	mostrarMarcadores(marcadores);
-    };
-
 }
 
 ko.applyBindings(new ViewModel());
