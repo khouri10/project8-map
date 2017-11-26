@@ -3,33 +3,51 @@ var lugaresIniciais = [
 {
     nome: 'M10',
     posição: {lat: -23.532581, lng: -46.614906},
-    id: ''
+    id: 1,
+    marcador: ''
 },
 {
     nome: 'Gajang',
     posição: {lat: -23.535557, lng: -46.613252},
-    id: ''
+    id: 2,
+    marcador: ''
 },
 {
     nome: 'Nikimba',
     posição: {lat: -23.534199, lng: -46.612641},
-    id: ''
+    id: 3,
+    marcador: ''
 },
 {
     nome: 'Aishty',
     posição: {lat: -23.536217, lng: -46.612821},
-    id: ''
+    id: 4,
+    marcador: ''
 },
 {
     nome: 'Hotel Family',
     posição: {lat: -23.539749, lng: -46.619614},
-    id: ''
+    id: 5,
+    marcador: ''
 }
 ];
 
 var map;
 
-var marcadores = [];
+var marcadorPadrao;
+
+var marcadorDestacado;
+
+function makeMarkerIcon(markerColor) {
+        var markerImage = new google.maps.MarkerImage(
+          'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ markerColor +
+          '|40|_|%E2%80%A2',
+          new google.maps.Size(21, 34),
+          new google.maps.Point(0, 0),
+          new google.maps.Point(10, 34),
+          new google.maps.Size(21,34));
+        return markerImage;
+      }
 
 var initMap = function() {
 	
@@ -40,18 +58,32 @@ var initMap = function() {
     	mapTypeControl: false
     });
 
+	marcadorPadrao = makeMarkerIcon('F44336');
+
+	marcadorDestacado = makeMarkerIcon('FFC107');
     //coloca marcadores no mapa
     for (var i = 0; i < lugaresIniciais.length; i++) {
     	var marcador = new google.maps.Marker({
           position: lugaresIniciais[i].posição,
           map: map,
           title: lugaresIniciais[i].nome,
-          animation: google.maps.Animation.DROP
+          animation: google.maps.Animation.DROP,
+          icon: marcadorPadrao
         });
-        lugaresIniciais[i].id = i
-
-        marcadores.push(marcador);
+        
+    	lugaresIniciais[i].marcador = marcador;
+        
+         marcador.addListener('mouseover', function() {
+            this.setIcon(marcadorDestacado);
+          });
+          marcador.addListener('mouseout', function() {
+            this.setIcon(marcadorPadrao);
+          });
     }
+
+    // to change the colors back and forth.
+         
+        
 }
 
 
@@ -86,17 +118,22 @@ var ViewModel = function() {
     this.pesquisa = ko.observable(''); 
     this.pesquisar = function(value) {
         self.lugarLista.removeAll();
-        esconderMarcadores(marcadores);
+        
+        for (var i = 0; i < lugaresIniciais.length; i++) {
+        lugaresIniciais[i].marcador.setMap(null);
+        }
 
         if (value == '') {
         	self.listarTodos;
-        	mostrarMarcadores(marcadores);
+        	for (var i = 0; i < lugaresIniciais.length; i++) {
+        		lugaresIniciais[i].marcador.setMap(null);
+        	}
         }
 
         lugaresIniciais.forEach(function(lugarItem){
             if (lugarItem.nome.toLowerCase().indexOf(value.toLowerCase()) >= 0) {
                     self.lugarLista.push( new Lugar(lugarItem) );
-                    marcadores[lugarItem.id].setMap(map)
+                    lugarItem.marcador.setMap(map)
             } 
         });
       		
