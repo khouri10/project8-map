@@ -4,31 +4,36 @@ var lugaresIniciais = [
     nome: 'M10',
     posição: {lat: -23.532581, lng: -46.614906},
     id: 1,
-    marcador: ''
+    marcador: '',
+    visivel: true
 },
 {
     nome: 'Gajang',
     posição: {lat: -23.535557, lng: -46.613252},
     id: 2,
-    marcador: ''
+    marcador: '',
+    visivel: true
 },
 {
     nome: 'Nikimba',
     posição: {lat: -23.534199, lng: -46.612641},
     id: 3,
-    marcador: ''
+    marcador: '',
+    visivel: true
 },
 {
     nome: 'Aishty',
     posição: {lat: -23.536217, lng: -46.612821},
     id: 4,
-    marcador: ''
+    marcador: '',
+    visivel: true
 },
 {
     nome: 'Hotel Family',
     posição: {lat: -23.539749, lng: -46.619614},
     id: 5,
-    marcador: ''
+    marcador: '',
+    visivel: true
 }
 ];
 
@@ -90,53 +95,48 @@ var initMap = function() {
 var Lugar = function(data){
     this.nome = ko.observable(data.nome);
     this.posição = ko.observable(data.posição);
-}
-
-var esconderMarcadores = function (marcadores) {
-    for (var i = 0; i < marcadores.length; i++) {
-        marcadores[i].setMap(null);
-        }
-}
-
-var mostrarMarcadores = function(marcadores) {
-	for (var i = 0; i < marcadores.length; i++) {
-	    marcadores[i].setMap(map);
-	}
+    this.id = ko.observable(data.id);
+    this.marcador = ko.observable(data.marcador);
+    this.visivel = ko.observable(data.visivel);
 }
 
 var ViewModel = function() {
     var self = this;
 
+    //cria uma array observavel vazia
     this.lugarLista = ko.observableArray([]);
 
-    this.listarTodos = function() {
-        lugaresIniciais.forEach(function(lugarItem){
-            self.lugarLista.push( new Lugar(lugarItem) );
-        });
-    }
-    this.listarTodos();
+    //coloca todos os dados iniciais na array osbservavel
+    lugaresIniciais.forEach(function(lugarItem){
+        self.lugarLista.push( new Lugar(lugarItem) );
+    });
+    
+    //cria um observavel para linkar com o evento da pesquisa    
     this.pesquisa = ko.observable(''); 
-    this.pesquisar = function(value) {
-        self.lugarLista.removeAll();
-        
-        for (var i = 0; i < lugaresIniciais.length; i++) {
-        lugaresIniciais[i].marcador.setMap(null);
-        }
 
+    //função que esconde os itens que não correspondem a pesquisa
+    // e mostra todos quando estiver vazia
+    this.pesquisar = function(value) {
+    	alert(self.lugarLista().nome())
+
+/*
         if (value == '') {
-        	self.listarTodos;
         	for (var i = 0; i < lugaresIniciais.length; i++) {
-        		lugaresIniciais[i].marcador.setMap(null);
+        		lugaresIniciais[i].marcador.setMap(map);
+        		lugaresIniciais[i].visivel = true;
         	}
         }
 
         lugaresIniciais.forEach(function(lugarItem){
             if (lugarItem.nome.toLowerCase().indexOf(value.toLowerCase()) >= 0) {
-                    self.lugarLista.push( new Lugar(lugarItem) );
-                    lugarItem.marcador.setMap(map)
-            } 
+                    lugarItem.marcador.setMap(map);
+                    lugarItem.visivel = true;
+            } else {
+            	lugarItem.marcador.setMap(null);
+            	lugarItem.visivel = false;
+            }
         });
-      		
+      		*/
     };
 
     this.pesquisa.subscribe(self.pesquisar);
