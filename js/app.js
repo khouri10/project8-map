@@ -4,35 +4,35 @@ var lugaresIniciais = [
     nome: 'M10',
     posição: {lat: -23.532581, lng: -46.614906},
     id: 1,
-    marcador: '',
+    marcador: [],
     visivel: true
 },
 {
     nome: 'Gajang',
     posição: {lat: -23.535557, lng: -46.613252},
     id: 2,
-    marcador: '',
+    marcador: [],
     visivel: true
 },
 {
     nome: 'Nikimba',
     posição: {lat: -23.534199, lng: -46.612641},
     id: 3,
-    marcador: '',
+    marcador: [],
     visivel: true
 },
 {
     nome: 'Aishty',
     posição: {lat: -23.536217, lng: -46.612821},
     id: 4,
-    marcador: '',
+    marcador: [],
     visivel: true
 },
 {
     nome: 'Hotel Family',
     posição: {lat: -23.539749, lng: -46.619614},
     id: 5,
-    marcador: '',
+    marcador: [],
     visivel: true
 }
 ];
@@ -76,7 +76,7 @@ var initMap = function() {
           icon: marcadorPadrao
         });
         
-    	lugaresIniciais[i].marcador = marcador;
+    	lugaresIniciais[i].marcador.push(marcador);
         
          marcador.addListener('mouseover', function() {
             this.setIcon(marcadorDestacado);
@@ -96,7 +96,7 @@ var Lugar = function(data){
     this.nome = ko.observable(data.nome);
     this.posição = ko.observable(data.posição);
     this.id = ko.observable(data.id);
-    this.marcador = ko.observable(data.marcador);
+    this.marcador = ko.observableArray(data.marcador);
     this.visivel = ko.observable(data.visivel);
 }
 
@@ -117,26 +117,24 @@ var ViewModel = function() {
     //função que esconde os itens que não correspondem a pesquisa
     // e mostra todos quando estiver vazia
     this.pesquisar = function(value) {
-    	alert(self.lugarLista().nome())
-
-/*
+    	
         if (value == '') {
-        	for (var i = 0; i < lugaresIniciais.length; i++) {
-        		lugaresIniciais[i].marcador.setMap(map);
-        		lugaresIniciais[i].visivel = true;
+        	for (var i = 0; i < self.lugarLista().length; i++) {
+        		self.lugarLista()[i].marcador()[0].setMap(map);
+        		self.lugarLista()[i].visivel(true);
         	}
         }
 
-        lugaresIniciais.forEach(function(lugarItem){
-            if (lugarItem.nome.toLowerCase().indexOf(value.toLowerCase()) >= 0) {
-                    lugarItem.marcador.setMap(map);
-                    lugarItem.visivel = true;
+        self.lugarLista().forEach(function(lugarItem){
+            if (lugarItem.nome().toLowerCase().indexOf(value.toLowerCase()) >= 0) {
+                    lugarItem.marcador()[0].setMap(map);
+                    lugarItem.visivel(true);
             } else {
-            	lugarItem.marcador.setMap(null);
-            	lugarItem.visivel = false;
+            	lugarItem.marcador()[0].setMap(null);
+            	lugarItem.visivel(false);
             }
         });
-      		*/
+      		
     };
 
     this.pesquisa.subscribe(self.pesquisar);
