@@ -1,1 +1,1 @@
-Udacity/fend/project8-map
+cd Udacity/fend/project8-map

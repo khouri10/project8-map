@@ -45,9 +45,21 @@ var marcadorDestacado;
 
 var marcadorSelecionado;
 
-var lugarAtual = 1
 
-function makeMarkerIcon(markerColor, markerWidth, markerHeight) {
+
+var Lugar = function(data){
+    this.nome = ko.observable(data.nome);
+    this.posição = ko.observable(data.posição);
+    this.id = ko.observable(data.id);
+    this.marcador = ko.observableArray([data.marcador]);
+    this.visivel = ko.observable(data.visivel);
+
+}
+
+var ViewModel = function() {
+    var self = this;
+    
+    function makeMarkerIcon(markerColor, markerWidth, markerHeight) {
         var markerImage = new google.maps.MarkerImage(
           'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ markerColor +
           '|40|_|%E2%80%A2',
@@ -56,68 +68,53 @@ function makeMarkerIcon(markerColor, markerWidth, markerHeight) {
           new google.maps.Point(10, 34),
           new google.maps.Size(markerWidth, markerHeight));
         return markerImage;
-      }
-
-var initMap = function() {
-	
-	//inicia o mapa na tela inteira
-	map = new google.maps.Map(document.getElementById('map'), {
-    	center: {lat: -23.538047, lng: -46.613912},
-    	zoom: 15,
-    	mapTypeControl: false
-    });
-
-	marcadorPadrao = makeMarkerIcon('F44336', 21, 34);
-
-	marcadorDestacado = makeMarkerIcon('FFC107', 21, 34);
-
-    marcadorSelecionado = makeMarkerIcon('4CAF50', 25, 41);
-    //coloca marcadores no mapa
-    for (var i = 0; i < lugaresIniciais.length; i++) {
-    	var marcador = new google.maps.Marker({
-          position: lugaresIniciais[i].posição,
-          map: map,
-          title: lugaresIniciais[i].nome,
-          animation: google.maps.Animation.DROP,
-          icon: marcadorPadrao
-        });
-        
-        marcador.addListener('click', function() {
-            
-            this.setIcon(marcadorSelecionado);
-             
-        });
-  
-    	lugaresIniciais[i].marcador.push(marcador);
-
-        /*
-         marcador.addListener('mouseover', function() {
-            this.setIcon(marcadorDestacado);
-          });
-          marcador.addListener('mouseout', function() {
-            this.setIcon(marcadorPadrao);
-          });
-*/
-
     }
-}
 
+    this.initMap = function() {
+    
+        //inicia o mapa na tela inteira
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: -23.538047, lng: -46.613912},
+            zoom: 15,
+            mapTypeControl: false
+        });
 
-var Lugar = function(data){
-    this.nome = ko.observable(data.nome);
-    this.posição = ko.observable(data.posição);
-    this.id = ko.observable(data.id);
-    this.marcador = ko.observableArray(data.marcador);
-    this.visivel = ko.observable(data.visivel);
+        marcadorPadrao = makeMarkerIcon('F44336', 21, 34);
 
-}
+        marcadorDestacado = makeMarkerIcon('FFC107', 21, 34);
 
-var ViewModel = function() {
-    var self = this;
+        marcadorSelecionado = makeMarkerIcon('4CAF50', 25, 41);
+        //coloca marcadores no mapa
+        for (var i = 0; i < lugaresIniciais.length; i++) {
+            var marcador = new google.maps.Marker({
+              position: lugaresIniciais[i].posição,
+              map: map,
+              title: lugaresIniciais[i].nome,
+              animation: google.maps.Animation.DROP,
+              icon: marcadorPadrao
+            });
+            
+            lugaresIniciais[i].marcador.push(marcador);
+            /*
+             marcador.addListener('mouseover', function() {
+                this.setIcon(marcadorDestacado);
+              });
+              marcador.addListener('mouseout', function() {
+                this.setIcon(marcadorPadrao);
+              });
+    */
+              marcador.addListener('click', function() {
+                console.log(this.icon);
+              });
+              
+        }            
+    }
+
+    this.initMap();
 
     //cria uma array observavel vazia
     this.lugarLista = ko.observableArray([]);
-    this.lugarSelecionado = ko.observable(lugarAtual)
+    this.lugarSelecionado = ko.observable(lugaresIniciais[0].id)
 
     //coloca todos os dados iniciais na array osbservavel
     lugaresIniciais.forEach(function(lugarItem){
@@ -130,6 +127,8 @@ var ViewModel = function() {
            self.lugarLista()[i].marcador()[0].setIcon(marcadorPadrao);
         }
         lugar.marcador()[0].setIcon(marcadorSelecionado);
+        self.lugarSelecionado(lugar.id())
+        console.log(self.lugarSelecionado())
     }
 
     
@@ -160,8 +159,11 @@ var ViewModel = function() {
     };
 
     this.pesquisa.subscribe(self.pesquisar);
+
+   
 }
 
+function startApp(){
 ko.applyBindings(new ViewModel());
-
+}
 

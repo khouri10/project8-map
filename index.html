@@ -17,7 +17,7 @@
 		<div class="container">
     	
     	<ul id="lista" data-bind="foreach: lugarLista">
-    		<li id="item"><a data-bind="visible: visivel, text: nome" href="#"></a></li>
+    		<li id="item"><a data-bind="visible: visivel, text: nome, click: $parent.selecionarLugar" href="#"></a></li>
     	</ul>	
 
     	<div id="map"></div>
