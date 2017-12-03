@@ -31,14 +31,14 @@ body {
 }
 
 
-
-#lista {
+.lista-padrao, .lista-restaurantes {
 	list-style-type: none;
     padding: 0;
     margin: 0;
 }
 
-#lista li a {
+
+.item-padrao a {
 	border: 1px solid #ddd; 
     margin-top: -1px; 
     background-color: white; 
@@ -50,8 +50,31 @@ body {
 }
 
 
-#lista li a:hover:not(.header) {
+.item-padrao a:hover:not(.header) {
     background-color: #eee; 
 }
 
+.item-selecionado a {
+	border: 1px solid #ddd; 
+    margin-top: -1px; 
+    background-color:  #4CAF50; 
+    padding: 12px; 
+    text-decoration: none; 
+    font-size: 18px; 
+    color: white; 
+    display: block; 
+}
 
+
+.item-selecionado a:hover:not(.header) {
+    background-color: #A5D6A7; 
+}
+
+h3 {
+    margin-top: 40px;
+    margin-bottom: 0;
+    padding: 12px;
+    font-size: 20px; 
+    color: black; 
+    display: block; 
+}

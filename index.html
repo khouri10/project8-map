@@ -16,9 +16,13 @@
     <input type="input" id="filtro" placeholder="Procurar lugares.." data-bind="value: pesquisa, valueUpdate: 'keyup'" autocomplete="off" >
 		<div class="container">
     	
-    	<ul id="lista" data-bind="foreach: lugarLista">
-    		<li id="item"><a data-bind="visible: visivel, text: nome, click: $parent.selecionarLugar" href="#"></a></li>
+    	<ul id="lista" class="lista-padrao" data-bind="foreach: lugarLista">
+    		<li id="item" class="item-padrao" ><a data-bind="visible: visivel, text: nome, click: $parent.selecionarLugar" href="#"></a></li>
     	</ul>	
+      <h3> Restaurantes próximos</h3>
+      <ul id="lista" class="lista-restaurantes" data-bind="foreach: restaurantes">
+        <li id="item" class="item-padrao" ><a data-bind="text: nome" href="#"></a></li>
+      </ul> 
 
     	<div id="map"></div>
 	  </div>
