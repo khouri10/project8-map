@@ -188,7 +188,7 @@ var ViewModel = function() {
 	        }        
 
 	    }).fail(function(){
-	        console.log('erro');
+	        alert("A API do Foursquare não foi carregada corretamente. Favor recarregar a página");
 	    });
 
     }

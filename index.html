@@ -20,6 +20,7 @@
     		<li id="item"  class="item-padrao"><a data-bind="visible: visivel, text: nome, click: $parent.selecionarLugar, css: { 'item-selecionado': destacado }" href="#"></a></li>
     	</ul>	
       <h3> Restaurantes próximos</h3>
+      <h5>(fonte: Foursquare)</h5>
       <ul id="lista2" class="lista-restaurantes" data-bind="foreach: restaurantes">
         <li id="item2" class="item-padrao">
         	<h4 data-bind="text: nome" ></h4>
@@ -28,7 +29,9 @@
         </li>
       </ul> 
 
-    	<div id="map"></div>
+    	<div id="map">
+    		<p>O google maps não foi carregado corretamente, favor recarregar a página </p>
+    	</div>
 	  </div>
 	  	
 	  
