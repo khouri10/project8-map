@@ -152,7 +152,9 @@ var ViewModel = function() {
 
     //cria uma array observavel vazia para ser preenchida com os lugares iniciais
     this.lugarLista = ko.observableArray([]);
-  
+  	
+  	//array para guardar a lista de restaurantes próximos
+  	this.restaurantes = ko.observableArray([]);
 
     //coloca todos os dados iniciais na array osbservavel
     lugaresIniciais.forEach(function(lugarItem){
@@ -170,6 +172,24 @@ var ViewModel = function() {
         lugar.marcador()[0].setIcon(marcadorSelecionado);
         lugar.destacado(true);
        
+       	//
+       	var latitude = lugar.posição().lat;
+	    var longitude = lugar.posição().lng;
+	    var foursquareURL = 'https://api.foursquare.com/v2/venues/search?ll=' + latitude + ',' + longitude +
+	        '&client_id=RCU1XOXGZMYWAK0NX2YN2BXWCFH1V2VZSM4VB2GFKNJ1CIJT&client_secret=0VLNN01DE2OSEUYPXLYFJLA4Y0GVQDTVGXUPZRPR2D1JFZZS&v=20160118&query=restaurante&limit=5'
+	    
+	    //limpa lista de restaurantees
+	    self.restaurantes.removeAll() 
+	    //solicitação da API do foursquare de pesquisa dos 5 restaurantes mais próximos do lugar apontado
+	    $.getJSON(foursquareURL, function( data ) {
+	        for (var i = 0; i < data.response.venues.length; i++) {
+	        	var response = data.response.venues[i];
+	        	self.restaurantes.push(new Restaurante(response));
+	        }        
+
+	    }).fail(function(){
+	        console.log('erro');
+	    });
 
     }
     
@@ -204,25 +224,13 @@ var ViewModel = function() {
 
     this.pesquisa.subscribe(self.pesquisar);
     
-    //pega os paramatros para a solicitação (apenas do primeiro item a fins de teste)
-    var latitude = self.lugarLista()[0].posição().lat;
-    var longitude = self.lugarLista()[0].posição().lng;
-    var foursquareURL = 'https://api.foursquare.com/v2/venues/search?ll=' + latitude + ',' + longitude +
-        '&client_id=RCU1XOXGZMYWAK0NX2YN2BXWCFH1V2VZSM4VB2GFKNJ1CIJT&client_secret=0VLNN01DE2OSEUYPXLYFJLA4Y0GVQDTVGXUPZRPR2D1JFZZS&v=20160118&query=restaurante&limit=5'
     
-    this.restaurantes = ko.observableArray([]);
 
-    //solicitação da API do foursquare de pesquisa dos 5 restaurantes mais próximos do lugar apontado
-    $.getJSON(foursquareURL, function( data ) {
-        for (var i = 0; i < data.response.venues.length; i++) {
-        	var response = data.response.venues[i];
-        	self.restaurantes.push(new Restaurante(response));
-        }        
+    
 
-    }).fail(function(){
-        console.log('erro');
-    });
-
+    this.atualizarRestaurantes = function(lugar){
+	    
+	}
 
 
 
