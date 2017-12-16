@@ -5,35 +5,40 @@ var lugaresIniciais = [
     posição: {lat: -23.532581, lng: -46.614906},
     id: 1,
     marcador: [],
-    visivel: true
+    visivel: true,
+    destacado: false
 },
 {
     nome: 'Gajang',
     posição: {lat: -23.535557, lng: -46.613252},
     id: 2,
     marcador: [],
-    visivel: true
+    visivel: true,
+    destacado: false
 },
 {
     nome: 'Nikimba',
     posição: {lat: -23.534199, lng: -46.612641},
     id: 3,
     marcador: [],
-    visivel: true
+    visivel: true,
+    destacado: false
 },
 {
     nome: 'Aishty',
     posição: {lat: -23.536217, lng: -46.612821},
     id: 4,
     marcador: [],
-    visivel: true
+    visivel: true,
+    destacado: false
 },
 {
     nome: 'Hotel Family',
     posição: {lat: -23.539749, lng: -46.619614},
     id: 5,
     marcador: [],
-    visivel: true
+    visivel: true,
+    destacado: false
 }
 ];
 
@@ -129,6 +134,7 @@ var Lugar = function(data){
     this.id = ko.observable(data.id);
     this.marcador = ko.observableArray(data.marcador);
     this.visivel = ko.observable(data.visivel);
+    this.destacado = ko.observable(data.destacado);
 
 }
 
@@ -137,6 +143,8 @@ var Restaurante = function(data){
     this.nome = ko.observable(data.name);
     this.lat = ko.observable(data.location.lat);
     this.lng = ko.observable(data.location.lng);
+    this.endereço = ko.observable(data.location.formattedAddress[0]);
+    this.telefone = ko.observable(data.contact.formattedPhone);
 }
 
 var ViewModel = function() {
@@ -156,13 +164,15 @@ var ViewModel = function() {
     	//deixa todos marcadores com aparencia padrão
         for (var i = 0; i < self.lugarLista().length; i++) {
            self.lugarLista()[i].marcador()[0].setIcon(marcadorPadrao);
+           self.lugarLista()[i].destacado(false);
         }
         //destaca o marcador selecionado
         lugar.marcador()[0].setIcon(marcadorSelecionado);
-        $("#item").attr('class', 'item-selecionado');
+        lugar.destacado(true);
        
 
     }
+    
 
     
     //cria um observavel para linkar com o evento da pesquisa    
@@ -206,12 +216,8 @@ var ViewModel = function() {
     $.getJSON(foursquareURL, function( data ) {
         for (var i = 0; i < data.response.venues.length; i++) {
         	var response = data.response.venues[i];
-        	self.restaurantes().push(new Restaurante(response));
-        	console.log(response.name) //verificação se tá certa a solicitação
-        }
-
-        	
-        
+        	self.restaurantes.push(new Restaurante(response));
+        }        
 
     }).fail(function(){
         console.log('erro');

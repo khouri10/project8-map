@@ -17,11 +17,15 @@
 		<div class="container">
     	
     	<ul id="lista" class="lista-padrao" data-bind="foreach: lugarLista">
-    		<li id="item" class="item-padrao" ><a data-bind="visible: visivel, text: nome, click: $parent.selecionarLugar" href="#"></a></li>
+    		<li id="item"  class="item-padrao"><a data-bind="visible: visivel, text: nome, click: $parent.selecionarLugar, css: { 'item-selecionado': destacado }" href="#"></a></li>
     	</ul>	
       <h3> Restaurantes próximos</h3>
-      <ul id="lista" class="lista-restaurantes" data-bind="foreach: restaurantes">
-        <li id="item" class="item-padrao" ><a data-bind="text: nome" href="#"></a></li>
+      <ul id="lista2" class="lista-restaurantes" data-bind="foreach: restaurantes">
+        <li id="item2" class="item-padrao" >
+        	<h4 data-bind="text: nome" ></h4>
+        	<p data-bind="text: endereço" ></p>
+        	<p data-bind="text: telefone" ></p>
+        </li>
       </ul> 
 
     	<div id="map"></div>
