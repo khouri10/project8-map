@@ -8,30 +8,34 @@
     	<meta name="author" content="Marcel El Khouri">
     	<title>Mapa do Brás</title>
 
+      <link rel="stylesheet" href="css/bootstrap.min.css">
     	<link rel="stylesheet" href="css/style.css">
     
   	</head>
 
   	<body>
     <input type="input" id="filtro" placeholder="Procurar lugares.." data-bind="value: pesquisa, valueUpdate: 'keyup'" autocomplete="off" >
-		<div class="container">
+		<div class="container row">
     	
-    	<ul id="lista" class="lista-padrao" data-bind="foreach: lugarLista">
+    	<ul id="lista" class="lista-padrao col-md-2"" data-bind="foreach: lugarLista">
     		<li id="item"  class="item-padrao"><a data-bind="visible: visivel, text: nome, click: $parent.selecionarLugar, css: { 'item-selecionado': destacado }" href="#"></a></li>
     	</ul>	
-      <h3> Restaurantes próximos</h3>
-      <h5>(fonte: Foursquare)</h5>
-      <ul id="lista2" class="lista-restaurantes" data-bind="foreach: restaurantes">
-        <li id="item2" class="item-padrao">
-        	<h4 data-bind="text: nome" ></h4>
-        	<p data-bind="text: endereço" ></p>
-        	<p data-bind="text: telefone" ></p>
-        </li>
-      </ul> 
+      <div id="map" class="col-md-8">
+        <p>O google maps não foi carregado corretamente, favor recarregar a página </p>
+      </div>
 
-    	<div id="map">
-    		<p>O google maps não foi carregado corretamente, favor recarregar a página </p>
-    	</div>
+      <div class="">
+        <h3> Restaurantes próximos</h3>
+        <h5>(fonte: Foursquare)</h5>
+        <ul id="lista2" class="lista-restaurantes col-md-2" data-bind="foreach: restaurantes">
+          <li id="item2" class="item-padrao">
+          	<h4 data-bind="text: nome" ></h4>
+          	<p data-bind="text: endereço" ></p>
+          	<p data-bind="text: telefone" ></p>
+          </li>
+        </ul> 
+      </div>
+    	
 	  </div>
 	  	
 	  

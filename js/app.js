@@ -105,12 +105,16 @@ var initMap = function() {
           icon: marcadorPadrao
         });
         
-        //olocaa infowindow em cada marcador ao ser clicado e destaca o icone
+        //coloca infowindow em cada marcador ao ser clicado e destaca o icone
         marcador.addListener('click', function() {
             
+        	for (var i = 0; i < m1.lugarLista().length; i++) {
+            	m1.lugarLista()[i].marcador()[0].setIcon(marcadorPadrao)
+        	}
+
             this.setIcon(marcadorSelecionado);
             populateInfoWindow(this, largeInfowindow);
-             
+
         });
   
     	lugaresIniciais[i].marcador.push(marcador);
@@ -171,6 +175,7 @@ var ViewModel = function() {
         //destaca o marcador selecionado
         lugar.marcador()[0].setIcon(marcadorSelecionado);
         lugar.destacado(true);
+        populateInfoWindow(lugar.marcador()[0], largeInfowindow)
        
        	//
        	var latitude = lugar.posição().lat;
@@ -236,7 +241,8 @@ var ViewModel = function() {
 
 }
 
-ko.applyBindings(new ViewModel());
+m1 = new ViewModel();
+ko.applyBindings(m1);
 
 
 
