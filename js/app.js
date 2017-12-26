@@ -3,7 +3,7 @@ var lugaresIniciais = [
 {
     nome: 'M10',
     posição: {lat: -23.532581, lng: -46.614906},
-    id: 1,
+    id: 0,
     marcador: [],
     visivel: true,
     destacado: false
@@ -11,7 +11,7 @@ var lugaresIniciais = [
 {
     nome: 'Gajang',
     posição: {lat: -23.535557, lng: -46.613252},
-    id: 2,
+    id: 1,
     marcador: [],
     visivel: true,
     destacado: false
@@ -19,7 +19,7 @@ var lugaresIniciais = [
 {
     nome: 'Nikimba',
     posição: {lat: -23.534199, lng: -46.612641},
-    id: 3,
+    id: 2,
     marcador: [],
     visivel: true,
     destacado: false
@@ -27,7 +27,7 @@ var lugaresIniciais = [
 {
     nome: 'Aishty',
     posição: {lat: -23.536217, lng: -46.612821},
-    id: 4,
+    id: 3,
     marcador: [],
     visivel: true,
     destacado: false
@@ -35,7 +35,7 @@ var lugaresIniciais = [
 {
     nome: 'Hotel Family',
     posição: {lat: -23.539749, lng: -46.619614},
-    id: 5,
+    id: 4,
     marcador: [],
     visivel: true,
     destacado: false
@@ -102,32 +102,17 @@ var initMap = function() {
           map: map,
           title: lugaresIniciais[i].nome,
           animation: google.maps.Animation.DROP,
-          icon: marcadorPadrao
+          icon: marcadorPadrao,
+          id: i
         });
         
-        //coloca infowindow em cada marcador ao ser clicado e destaca o icone
+        //aciona a função selecionar lugar ao clicar em um marcador
         marcador.addListener('click', function() {
-            
-        	for (var i = 0; i < m1.lugarLista().length; i++) {
-            	m1.lugarLista()[i].marcador()[0].setIcon(marcadorPadrao)
-        	}
-
-            this.setIcon(marcadorSelecionado);
-            populateInfoWindow(this, largeInfowindow);
-
+            lugar = m1.lugarLista()[this.id];
+            m1.selecionarLugar(lugar);
         });
   
     	lugaresIniciais[i].marcador.push(marcador);
-
-        /*
-         marcador.addListener('mouseover', function() {
-            this.setIcon(marcadorDestacado);
-          });
-          marcador.addListener('mouseout', function() {
-            this.setIcon(marcadorPadrao);
-          });
-*/
-
     }
 }
 
